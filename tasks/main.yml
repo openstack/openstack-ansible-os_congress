@@ -1,2 +1,17 @@
 ---
 # tasks file for os_congress
+- name: installing system dependent packages
+  apt:
+    name: "{{ item }}"
+    with_items:
+      - git
+      - gcc
+      - python-dev
+      - python-antlr3
+      - libxml2
+      - libxslt1-dev
+      - libzip-dev
+      - build-essential
+      - build-essential
+      - libssl-dev
+      - libffi-dev

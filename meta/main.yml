@@ -32,7 +32,7 @@ galaxy_info:
   galaxy_tags:
     - cloud
     - openstack
-    - tacker
+    - congress
     - python
 
 dependencies:

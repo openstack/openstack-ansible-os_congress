@@ -14,9 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- debug:
-    msg: "This script will call the installation tasks"
-
-- include: congress-pre-install.yml
-- include: congress-install.yml
-- include: congress-post-install.yml
+- name: installing prerequisites
+  apt:
+    name: "{{ item }}"
+    with_items:
+      - git
+      - gcc
+      - python-dev
+      - python-antlr3
+      - libxml2
+      - libxslt1-dev
+      - libzip-dev
+      - build-essential
+      - build-essential
+      - libssl-dev
+      - libffi-dev

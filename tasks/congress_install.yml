@@ -15,8 +15,4 @@
 # limitations under the License.
 
 - debug:
-    msg: "This script will call the installation tasks"
-
-- include: congress-pre-install.yml
-- include: congress-install.yml
-- include: congress-post-install.yml
+    msg: "This script will install Congress"

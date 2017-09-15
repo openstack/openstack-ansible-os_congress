@@ -15,8 +15,16 @@
 # limitations under the License.
 
 - debug:
-    msg: "This script will call the installation tasks"
+    msg: "This is the post installation script"
 
-- include: congress-pre-install.yml
-- include: congress-install.yml
-- include: congress-post-install.yml
+- debug:
+    msg: "Adding the configuration files"
+
+- debug:
+    msg: "Adding the database"
+
+- debug:
+    msg: "setting up congress accounts"
+
+- debug:
+    msg: "Setting up datasource drivers"

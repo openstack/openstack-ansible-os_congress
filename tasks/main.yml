@@ -17,6 +17,6 @@
 - debug:
     msg: "This script will call the installation tasks"
 
-- include: congress-pre-install.yml
-- include: congress-install.yml
-- include: congress-post-install.yml
+- include: congress_pre_install.yml
+- include: congress_install.yml
+- include: congress_post_install.yml

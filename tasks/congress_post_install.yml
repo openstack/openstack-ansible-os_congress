@@ -17,8 +17,24 @@
 - debug:
     msg: "This is the post installation script"
 
-- debug:
-    msg: "Adding the configuration files"
+- name: make configuration directory
+  file:
+    path: /etc/congress
+    state: directory
+
+- name: make snapshot directory
+  file:
+    path: /etc/congress/snapshot
+    state: directory
+
+- name: copy files
+  copy:
+    src: "/opt/requirements/etc/{{ item }}"
+    dest: /etc/congress
+  with_items:
+    - api-paste.ini
+    - policy.json
+    - congress.conf.sample
 
 - debug:
     msg: "Adding the database"

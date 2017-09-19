@@ -16,3 +16,13 @@
 
 - debug:
     msg: "This script will install Congress"
+
+- name: clone congress repository
+  git:
+    repo: "https://github.com/openstack/congress"
+    dest: "/opt/requirements"
+    clone: yes
+    update: yes
+
+- name: install congress from source
+  shell: cd /opt/requirements/congress && pip install -e .

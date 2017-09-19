@@ -25,4 +25,4 @@
     update: yes
 
 - name: install congress from source
-  shell: cd /opt/requirements/ && pip install -e .
+  shell: cd /opt/requirements/ && python setup.py install

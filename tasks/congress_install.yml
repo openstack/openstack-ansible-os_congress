@@ -24,8 +24,16 @@
     clone: yes
     update: yes
 
-- name: install congress from source
-  shell: cd /opt/requirements/ && python setup.py install
+- name: create venv directory
+  file:
+    path: /openstack/venvs/congress/bin
+    state: directory
+
+- name: install pip packages
+  pip:
+    name: PuLP
+    state: present
+    virtualenv: "/openstack/venvs/congress/"
 
 - name: generating the configuration
   shell: tox -egenconfig

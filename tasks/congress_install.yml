@@ -26,3 +26,6 @@
 
 - name: install congress from source
   shell: cd /opt/requirements/ && python setup.py install
+
+- name: generating the configuration
+  shell: tox -egenconfig

@@ -43,4 +43,10 @@
     msg: "setting up congress accounts"
 
 - debug:
+    msg: "setting up congress service endpoints"
+
+- debug:
     msg: "Setting up datasource drivers"
+
+- debug:
+    msg: "Install Congress client in the utility container"

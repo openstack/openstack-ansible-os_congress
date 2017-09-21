@@ -83,5 +83,5 @@
   ini_file:
     dest: "/etc/ansible/facts.d/openstack_ansible.fact"
     section: congress
-option: venv_tag
+    option: venv_tag
     value: "{{ congress_venv_tag }}"

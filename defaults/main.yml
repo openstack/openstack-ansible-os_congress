@@ -14,8 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+congress_package_state: "latest"
+
 congress_git_repo: https://git.openstack.org/openstack/congress
 congress_git_install_branch: master
+congress_developer_mode: false
 congress_requirements_git_repo: https://git.openstack.org/openstack/requirements
 congress_requirements_git_install_branch: master
 congress_developer_mode: false

@@ -20,7 +20,7 @@
 - name: clone requirements repository
   git:
     repo: "{{ congress_requirements_git_repo }}"
-    dest: "/opt/requirements"
+    dest: /opt/requirements
     clone: yes
     update: yes
 
@@ -41,17 +41,26 @@
     get_md5: False
   register: local_venv_stat
 
-- name: get remote venv checksum
-  uri:
-    url: "{{ congress_venv_download_url | replace('tgz', 'checksum')}}"
-    return_content: True
+#- name: get remote venv checksum
+#  uri:
+#    url: "{{ congress_venv_download_url | replace('tgz', 'checksum')}}"
+#    return_content: True
 
-- name: attempt venv download
-  get_url:
-    url: "{{ congress_venv_download_url }}"
-    dest: "/var/cache/{{ congress_venv_download_url | basename }}"
-  ignore_errors: true
-  register: tacker_get_venv
+- name: clone congress repo
+  git:
+    repo: "{{ congress_git_repo }}"
+    dest: /opt/congress
+    clone: yes
+
+- name: install congress packages
+  shell: cd /opt/congress && pip install .
+
+#- name: attempt venv download
+#  get_url:
+#    url: "{{ congress_venv_download_url }}"
+#    dest: "/var/cache/{{ congress_venv_download_url | basename }}"
+#  ignore_errors: true
+#  register: tacker_get_venv
 
 - name: generating the configuration
   shell: tox -egenconfig

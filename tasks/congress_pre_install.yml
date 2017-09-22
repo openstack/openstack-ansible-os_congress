@@ -24,3 +24,31 @@
     name: "{{ item }}"
   with_items:
     - virtualenv
+
+- name: create congress group
+  group:
+    name: "{{ congress_system_group_name }}"
+    state: present
+
+- name: create congress user
+  user:
+    name: "{{ congress_system_user_name }}"
+    group: "{{ congress_system_group_name }}"
+    createhome: no
+
+- name: make congress configuration directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /etc/congress
+    - /etc/congress/snapshot
+
+- name: copy files
+  copy:
+    src: "/opt/congress/etc/{{ item }}"
+    dest: /etc/congress
+  with_items:
+    - api-paste.ini
+    - policy.json
+#    - congress.conf.sample

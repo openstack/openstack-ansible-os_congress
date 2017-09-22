@@ -30,3 +30,47 @@ congress_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/congress.tgz
 
 congress_requires_pip_packages:
   - virtualenv
+
+## System info
+congress_system_user_name: congress
+congress_system_group_name: congress
+congress_system_shell: /bin/false
+congress_system_comment: congress system user
+congress_system_user_home: "/var/lib/{{ congress_system_user_name }}"
+
+## Database credentials
+congress_db_name: congress
+congress_db_user: root
+congress_db_login_host: ""
+congress_db_login_user: ""
+congress_db_login_password: ""
+congress_db_user_password: ""
+
+## Service Type and Data
+congress_service_region: RegionOne
+congress_service_name: congress
+congress_service_proto: http
+congress_service_type: nfv-orchestration
+congress_service_description: "congress service"
+congress_service_publicuri: "{{ congress_service_publicuri_proto }}://{{ external_lb_vip_address }}:{{ congress_service_port }}"
+congress_service_publicurl: "{{ congress_service_publicuri }}"
+congress_service_internaluri: "{{ congress_service_internaluri_proto }}://{{ internal_lb_vip_address }}:{{ congress_service_port }}"
+congress_service_internalurl: "{{ congress_service_internaluri }}"
+congress_service_adminuri: "{{ congress_service_adminuri_proto }}://{{ internal_lb_vip_address }}:{{ congress_service_port }}"
+congress_service_adminurl: "{{ congress_service_adminuri }}"
+congress_service_registry_proto: "{{ congress_service_proto }}"
+congress_service_publicuri_proto: "{{ openstack_service_publicuri_proto | default(congress_service_proto) }}"
+congress_service_adminuri_proto: "{{ openstack_service_adminuri_proto | default(congress_service_proto) }}"
+congress_service_internaluri_proto: "{{ openstack_service_internaluri_proto | default(congress_service_proto) }}"
+
+#NOTE:  move password to tests/test-vars.yml
+congress_service_password: password
+
+## Keystone
+congress_service_project_domain_id: default
+congress_service_project_name: service
+congress_service_user_domain_id: default
+congress_service_user_name: congress
+congress_keystone_auth_plugin: password
+
+congress_service_in_ldap: false

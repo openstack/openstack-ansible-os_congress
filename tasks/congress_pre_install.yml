@@ -47,11 +47,16 @@
     - /etc/congress
     - /etc/congress/snapshot
 
-- name: copy files
-  copy:
-    src: "/opt/congress/etc/{{ item }}"
-    dest: /etc/congress
-  with_items:
-    - api-paste.ini
-    - policy.json
+- name: generate configuration file
+  shell: tox -egenconfig
+  args:
+    chdir: /opt/congress
+
+#- name: copy files
+#  copy:
+#    src: "/opt/congress/etc/{{ item }}"
+#    dest: /etc/congress
+#  with_items:
+#    - api-paste.ini
+#    - policy.json
 #    - congress.conf.sample

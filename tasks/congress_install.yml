@@ -14,12 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: clone congress repo
-  git:
-    repo: "{{ congress_git_repo }}"
-    dest: /opt/congress
-    clone: yes
-
 - name: install congress
   shell: python setup.py install
   args:

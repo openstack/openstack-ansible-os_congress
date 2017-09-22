@@ -14,9 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- debug:
-    msg: "This is the pre installer script"
-
 - include: congress_apt_packages.yml
 
 - name: install pip packages
@@ -24,6 +21,12 @@
     name: "{{ item }}"
   with_items:
     - virtualenv
+
+- name: clone congress repo
+  git:
+    repo: "{{ congress_git_repo }}"
+    dest: /opt/congress
+    clone: yes
 
 - name: create congress group
   group:

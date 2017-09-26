@@ -30,6 +30,7 @@ congress_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/congress.tgz
 
 congress_requires_pip_packages:
   - virtualenv
+  - tox
 
 ## System info
 congress_system_user_name: congress

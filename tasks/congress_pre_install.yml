@@ -47,10 +47,10 @@
     - /etc/congress
     - /etc/congress/snapshot
 
-- name: generate configuration file
-  shell: tox -egenconfig
-  args:
-    chdir: /opt/congress
+#- name: generate configuration file
+#  shell: tox -egenconfig
+# args:
+#    chdir: /opt/congress
 
 #- name: copy files
 #  copy:

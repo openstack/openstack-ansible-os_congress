@@ -14,79 +14,79 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: install congress
-  shell: python setup.py install
-  args:
-    chdir: /opt/congress
+#- name: install congress
+#  shell: python setup.py install
+#  args:
+#    chdir: /opt/congress
 
-#- name: Install required pip packages
-#  pip:
-#    name: "{{ congress_requires_pip_packages | join(' ') }}"
-#    state: "{{ congress_package_state }}"
-#  register: install_packages
-#  until: install_packages|success
-#  retries: 5
-#  delay: 2
+- name: Install required pip packages
+  pip:
+    name: "{{ congress_requires_pip_packages | join(' ') }}"
+    state: "{{ congress_package_state }}"
+  register: install_packages
+  until: install_packages|success
+  retries: 5
+  delay: 2
 
-#- name: Retrieve checksum for venv download
-#  uri:
-#    url: "{{ congress_venv_download_url | replace('tgz', 'checksum') }}"
-#    return_content: yes
-#  register: congress_venv_checksum
-#  when: not congress_developer_mode | bool
+- name: Retrieve checksum for venv download
+  uri:
+    url: "{{ congress_venv_download_url | replace('tgz', 'checksum') }}"
+    return_content: yes
+  register: congress_venv_checksum
+  when: not congress_developer_mode | bool
 
-#- name: Attempt venv download
-#  get_url:
-#    url: "{{ congress_venv_download_url }}"
-#    dest: "/var/cache/{{ congress_venv_download_url | basename }}"
-#    checksum: "sha1:{{ congress_venv_checksum.content | trim }}"
-#  register: congress_get_venv
-#  when: not congress_developer_mode | bool
+- name: Attempt venv download
+  get_url:
+    url: "{{ congress_venv_download_url }}"
+    dest: "/var/cache/{{ congress_venv_download_url | basename }}"
+    checksum: "sha1:{{ congress_venv_checksum.content | trim }}"
+  register: congress_get_venv
+  when: not congress_developer_mode | bool
 
-#- name: Remove existing venv
-#  file:
-#    path: "{{ congress_bin | dirname }}"
-#    state: absent
-#  when: congress_get_venv | changed
+- name: Remove existing venv
+  file:
+    path: "{{ congress_bin | dirname }}"
+    state: absent
+  when: congress_get_venv | changed
 
-#- name: Create congress venv dir
-#  file:
-#    path: "{{ congress_bin | dirname }}"
-#    state: directory
-#  register: congress_venv_dir
-#  when: not congress_developer_mode | bool
+- name: Create congress venv dir
+  file:
+    path: "{{ congress_bin | dirname }}"
+    state: directory
+  register: congress_venv_dir
+  when: not congress_developer_mode | bool
 
-#- name: Unarchive pre-built venv
-#  unarchive:
-#    src: "/var/cache/{{ congress_venv_download_url | basename }}"
-#    dest: "{{ congress_bin | dirname }}"
-#    copy: "no"
-#  when:
-#    - not congress_developer_mode | bool
-#    - congress_get_venv | changed or congress_venv_dir | changed
+- name: Unarchive pre-built venv
+  unarchive:
+    src: "/var/cache/{{ congress_venv_download_url | basename }}"
+    dest: "{{ congress_bin | dirname }}"
+    copy: "no"
+  when:
+    - not congress_developer_mode | bool
+    - congress_get_venv | changed or congress_venv_dir | changed
 
-#- name: Install pip packages
-#  pip:
-#    name: "{{ congress_pip_packages | join(' ') }}"
-#    state: "{{ congress_package_state }}"
-#    virtualenv: "{{ congress_bin | dirname }}"
-#    virtualenv_site_packages: "no"
-#  register: install_packages
-#  until: install_packages|success
-#  retries: 5
-#  delay: 2
-#  when: congress_developer_mode | bool
+- name: Install pip packages
+  pip:
+    name: "{{ congress_pip_packages | join(' ') }}"
+    state: "{{ congress_package_state }}"
+    virtualenv: "{{ congress_bin | dirname }}"
+    virtualenv_site_packages: "no"
+  register: install_packages
+  until: install_packages|success
+  retries: 5
+  delay: 2
+  when: congress_developer_mode | bool
 
-#- name: Update virtualenv path
-#  command: >
-#    virtualenv-tools --update-path=auto --reinitialize {{ congress_bin | dirname }}
-#  when:
-#    - not congress_developer_mode | bool
-#    - congress_get_venv | changed or congress_venv_dir | changed
+- name: Update virtualenv path
+  command: >
+    virtualenv-tools --update-path=auto --reinitialize {{ congress_bin | dirname }}
+  when:
+    - not congress_developer_mode | bool
+    - congress_get_venv | changed or congress_venv_dir | changed
 
-#- name: Record the venv tag deployed
-#  ini_file:
-#    dest: "/etc/ansible/facts.d/openstack_ansible.fact"
-#    section: congress
-#    option: venv_tag
-#    value: "{{ congress_venv_tag }}"
+- name: Record the venv tag deployed
+  ini_file:
+    dest: "/etc/ansible/facts.d/openstack_ansible.fact"
+    section: congress
+    option: venv_tag
+    value: "{{ congress_venv_tag }}"

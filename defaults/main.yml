@@ -28,9 +28,14 @@ congress_bin: "/openstack/venvs/congress-{{ congress_venv_tag }}/bin"
 
 congress_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/congress.tgz
 
+## Required PIP packages
 congress_requires_pip_packages:
   - virtualenv
   - tox
+
+## congress developer constraint
+congress_developer_constraints:
+  -  - "git+{{ congress_git_repo }}@{{ congress_git_install_branch }}#egg=congress"
 
 ## System info
 congress_system_user_name: congress

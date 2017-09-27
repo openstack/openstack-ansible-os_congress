@@ -19,10 +19,23 @@
 #  args:
 #    chdir: /opt/congress
 
+- name: Create developer mode constraint file
+  copy:
+    dest: "/opt/developer-pip-constraints.txt"
+    content: |
+      {% for item in congress_developer_constraints %}
+      {{ item }}
+      {% endfor %}
+  when: congress_developer_mode | bool
+
 - name: Install required pip packages
   pip:
     name: "{{ congress_requires_pip_packages | join(' ') }}"
     state: "{{ congress_package_state }}"
+    extra_args: >-
+      {{ congress_developer_mode | ternary(pip_install_developer_constraints | default('--constraint /opt/developer-pip-constraints.txt'), '') }}
+      {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
+      {{ pip_install_options | default('') }}
   register: install_packages
   until: install_packages|success
   retries: 5
@@ -54,7 +67,7 @@
     path: "{{ congress_bin | dirname }}"
     state: directory
   register: congress_venv_dir
-  when: not congress_developer_mode | bool
+  when: congress_get_venv | changed
 
 - name: Unarchive pre-built venv
   unarchive:

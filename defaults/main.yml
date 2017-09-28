@@ -33,6 +33,7 @@ congress_requires_pip_packages:
   - tox
   - virtualenv
   - virtualenv-tools
+  - MySQL-python
 
 ## congress developer constraint
 congress_developer_constraints:

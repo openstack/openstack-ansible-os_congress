@@ -30,3 +30,4 @@
     - libssl-dev
     - libffi-dev
     - python-setuptools
+    - python-mysqldb

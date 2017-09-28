@@ -30,8 +30,9 @@ congress_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/congress.tgz
 
 ## Required PIP packages
 congress_requires_pip_packages:
-  - virtualenv
   - tox
+  - virtualenv
+  - virtualenv-tools
 
 ## congress developer constraint
 congress_developer_constraints:

@@ -21,7 +21,6 @@ congress_git_install_branch: master
 congress_developer_mode: false
 congress_requirements_git_repo: https://git.openstack.org/openstack/requirements
 congress_requirements_git_install_branch: master
-congress_developer_mode: false
 
 congress_venv_tag: untagged
 congress_bin: "/openstack/venvs/congress-{{ congress_venv_tag }}/bin"

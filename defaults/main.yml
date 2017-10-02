@@ -80,3 +80,7 @@ congress_service_user_name: congress
 congress_keystone_auth_plugin: password
 
 congress_service_in_ldap: false
+
+## DB info
+congress_galera_database: congress
+congress_galera_user: congress

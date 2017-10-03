@@ -63,7 +63,7 @@
   when: not congress_service_in_ldap | bool
   until: add_service|success
   retries: 5
-delay: 10
+  delay: 10
 
 # Create an endpoint
 - name: Ensure congress endpoint
@@ -87,4 +87,4 @@ delay: 10
   register: add_service
   until: add_service|success
   retries: 5
-delay: 10
+  delay: 10

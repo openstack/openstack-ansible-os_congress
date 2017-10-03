@@ -14,27 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: creating congress database
-  mysql_db:
-    name: "{{ congress_db_name }}"
-    state: present
-    login_host: "{{ congress_db_login_host }}"
-    login_user: "{{ congress_db_login_user }}"
-    login_password: "{{ congress_db_login_password }}"
-
-- name: create congress user access
-  mysql_user:
-    name: "{{ congress_db_user }}"
-    password: "{{ congress_db_user_password }}"
-    login_host: "{{ congress_db_login_host }}"
-    login_user: "{{ congress_db_login_user }}"
-    login_password: "{{ congress_db_login_password }}"
-    priv: congress.*:ALL
-    host: "{{ item }}"
-  with_items:
-    - "%"
-    - "localhost"
-
 - name: create congress database schema
   shell: >
       /usr/bin/congress-db-manage --config /etc/congress/congress.conf upgrade head

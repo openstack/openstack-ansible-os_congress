@@ -20,4 +20,4 @@
 - include: congress_pre_install.yml
 - include: congress_install.yml
 #- include: congress_post_install.yml
-- include: congress_init.yaml
+- include: congress_init.yml

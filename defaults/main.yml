@@ -32,6 +32,7 @@ congress_requires_pip_packages:
   - tox
   - virtualenv
   - virtualenv-tools
+  - python-keystoneclient
 
 ## congress developer constraint
 congress_developer_constraints:

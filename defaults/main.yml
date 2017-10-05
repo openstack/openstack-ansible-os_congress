@@ -85,3 +85,8 @@ congress_service_in_ldap: false
 ## DB info
 congress_galera_database: congress
 congress_galera_user: congress
+
+congress_role_name: admin
+congress_bind_address: 0.0.0.0
+congress_service_port: 9800
+congress_program_name: congress-server

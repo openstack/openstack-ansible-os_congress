@@ -48,6 +48,7 @@
   retries: 5
   delay: 10
 
+# Add role to the user
 - name: Ensure congress user to admin role
   keystone:
     command: "ensure_user_role"

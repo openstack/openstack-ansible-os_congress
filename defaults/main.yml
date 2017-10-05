@@ -57,7 +57,7 @@ congress_db_user_password: ""
 congress_service_region: RegionOne
 congress_service_name: congress
 congress_service_proto: http
-congress_service_type: nfv-orchestration
+congress_service_type: policy
 congress_service_description: "congress service"
 congress_service_publicuri: "{{ congress_service_publicuri_proto }}://{{ external_lb_vip_address }}:{{ congress_service_port }}"
 congress_service_publicurl: "{{ congress_service_publicuri }}"

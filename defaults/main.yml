@@ -66,7 +66,6 @@ congress_service_internalurl: "{{ congress_service_internaluri }}"
 congress_service_adminuri: "{{ congress_service_adminuri_proto }}://{{ internal_lb_vip_address }}:{{ congress_service_port }}"
 congress_service_adminurl: "{{ congress_service_adminuri }}"
 congress_service_registry_proto: "{{ congress_service_proto }}"
-congress_service_port: 9800
 congress_service_publicuri_proto: "{{ openstack_service_publicuri_proto | default(congress_service_proto) }}"
 congress_service_adminuri_proto: "{{ openstack_service_adminuri_proto | default(congress_service_proto) }}"
 congress_service_internaluri_proto: "{{ openstack_service_internaluri_proto | default(congress_service_proto) }}"
@@ -89,4 +88,5 @@ congress_galera_user: congress
 
 congress_role_name: admin
 congress_bind_address: 0.0.0.0
+congress_service_port: 9800
 congress_program_name: congress-server

@@ -103,3 +103,9 @@
     section: congress
     option: venv_tag
     value: "{{ congress_venv_tag }}"
+
+- name: Install congress from source
+  shell: python setup.py install
+
+- name: Generate congress configuration
+  shell: tox -egenconfig

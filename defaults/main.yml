@@ -27,6 +27,8 @@ congress_bin: "/openstack/venvs/congress-{{ congress_venv_tag }}/bin"
 
 congress_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/congress.tgz
 
+congress_etc_dir: "{{ congress_bin | dirname }}/etc/congress"
+
 ## Required PIP packages
 congress_requires_pip_packages:
   - tox

@@ -14,6 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: install congress client
-  pip:
-    name: python-congressclient
+- name: create congress database schema
+  command: "{{ congress_bin }}/congress-db-manage
+    --config-file {{ congress_etc_dir }}/congress.conf upgrade head"
+  become: yes
+  become_user: "{{ congress_system_user_name }}"
+  changed_when: False

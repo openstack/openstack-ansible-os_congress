@@ -18,7 +18,7 @@
 
 - include: congress_install.yml
 
-#- include: congress_post_install.yml
+- include: congress_post_install.yml
 
 - include: congress_service_setup.yml
   when: >

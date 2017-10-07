@@ -106,6 +106,5 @@
 
 - name: Install congress from source
   shell: python setup.py install
-
-- name: Generate congress configuration
-  shell: tox -egenconfig
+  args:
+    chdir: /opt/congress

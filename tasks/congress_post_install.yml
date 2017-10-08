@@ -14,14 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#- name: install congress client
-#  pip:
-#    name: python-congressclient
-
-- name: Generate congress configuration
-  shell: tox -egenconfig
-  args:
-    chdir: /opt/congress
+- name: generate congress configuration
+  template:
+    src: congress.conf
+    dest: /opt/congress/etc
 
 - name: copy files
   copy:
@@ -30,4 +26,4 @@
   with_items:
     - api-paste.ini
     - policy.json
-    - congress.conf.sample
+    - congress.conf

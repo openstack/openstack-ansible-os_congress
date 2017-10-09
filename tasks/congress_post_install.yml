@@ -16,13 +16,8 @@
 
 - name: generate congress configuration
   template:
-    src: congress.conf
+    src: "{{ item }}"
     dest: /opt/congress/etc
-
-- name: copy files
-  copy:
-    src: "/opt/congress/etc/{{ item }}"
-    dest: /etc/congress
   with_items:
     - api-paste.ini
     - policy.json

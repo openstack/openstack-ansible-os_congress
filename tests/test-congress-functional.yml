@@ -13,17 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Setup the host
-- include: common/test-setup-host.yml
-
-# Install RabbitMQ/MariaDB
-- include: common/test-install-infra.yml
-
-# Install Keystone
-- include: common/test-install-keystone.yml
-
-# Install Tacker
-- include: test-install-congress.yml
-
-# Test Tacker
-- include: test-congress-functional.yml
+- name: Ensure congress APIs are reachable
+  hosts: congress_all
+  user: root
+  gather_facts: false
+  tasks:
+    - name: check congress api
+      uri:
+        url: "http://localhost:{{ item }}"
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 5
+      delay: 10
+  with_items:
+        - 9800

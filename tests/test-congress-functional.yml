@@ -20,11 +20,9 @@
   tasks:
     - name: check congress api
       uri:
-        url: "http://localhost:{{ item }}"
+        url: http://localhost:9800
         status_code: 200
       register: result
       until: result.status == 200
       retries: 5
       delay: 10
-  with_items:
-        - 9800

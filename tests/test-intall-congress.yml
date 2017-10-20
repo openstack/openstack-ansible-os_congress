@@ -26,4 +26,4 @@
   roles:
     - role: os_congress
   vars_files:
-- common/test-vars.yml
+    - common/test-vars.yml

@@ -27,6 +27,7 @@
     repo: "{{ congress_git_repo }}"
     dest: /opt/congress
     clone: yes
+    version: master
 
 - name: create congress group
   group:

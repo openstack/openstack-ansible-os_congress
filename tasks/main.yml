@@ -29,4 +29,4 @@
     inventory_hostname == groups['congress_all'][0]
 
 - name: restart congress
-  shell: "{{ congress_bin }}/congress-server --debug"
+  command: "{{ congress_bin }}/congress-server --debug"

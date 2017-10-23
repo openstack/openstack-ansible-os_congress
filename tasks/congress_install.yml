@@ -105,6 +105,5 @@
     value: "{{ congress_venv_tag }}"
 
 - name: Install congress from source
-  shell: python setup.py install
-  args:
-    chdir: /opt/congress
+  command: python /opt/congress/setup.py install
+  

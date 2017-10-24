@@ -104,6 +104,5 @@
     option: venv_tag
     value: "{{ congress_venv_tag }}"
 
-- name: Install congress from source
-  command: python /opt/congress/setup.py install
-  
+#- name: Install congress from source
+#  command: python /opt/congress/setup.py install 

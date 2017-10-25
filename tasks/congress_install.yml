@@ -105,4 +105,4 @@
     value: "{{ congress_venv_tag }}"
 
 #- name: Install congress from source
-#  command: python /opt/congress/setup.py install 
+#  command: python /opt/congress/setup.py install

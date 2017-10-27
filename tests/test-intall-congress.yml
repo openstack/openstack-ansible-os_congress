@@ -21,7 +21,7 @@
   any_errors_fatal: true
   pre_tasks:
     - include: common/create-grant-db.yml
-      db_name: "{{ tacker_galera_database }}"
+      db_name: "{{ congress_galera_database }}"
       db_password: "{{ congress_container_mysql_password }}"
   roles:
     - role: os_congress

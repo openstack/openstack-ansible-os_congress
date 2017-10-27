@@ -22,8 +22,8 @@
 # Install Keystone
 - include: common/test-install-keystone.yml
 
-# Install Tacker
+# Install Congress
 - include: test-install-congress.yml
 
-# Test Tacker
+# Test Congress
 - include: test-congress-functional.yml

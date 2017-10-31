@@ -14,10 +14,12 @@
 # limitations under the License.
 
 - project:
-    name: openstack/openstack-ansible-os_glance
+    name: openstack/openstack-ansible-os_congress
     check:
       jobs:
-        - openstack-ansible-upgrade-ubuntu-xenial
+        - openstack-ansible-linters
+        - openstack-ansible-functional-ubuntu-xenial
     gate:
       jobs:
+        - openstack-ansible-linters
         - openstack-ansible-functional-ubuntu-xenial

@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+
+D /var/lock/{{ congress_program_name }} 2755 {{ congress_system_user_name }} {{ congress_system_group_name }}
+D /var/run/{{ congress_program_name }} 2755 {{ congress_system_user_name }} {{ congress_system_group_name }}

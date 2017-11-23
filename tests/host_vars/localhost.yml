@@ -13,16 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Ensure congress APIs are reachable
-  hosts: congress_all
-  user: root
-  gather_facts: false
-  tasks:
-    - name: check congress api
-      uri:
-        url: http://localhost:9800
-        status_code: 200
-      register: result
-      until: result.status == 200
-      retries: 5
-      delay: 10
+bridges:
+  - name: "br-mgmt"
+    ip_addr: "10.1.0.1"
+
+ansible_python_interpreter: "/usr/bin/python2"

@@ -89,5 +89,3 @@
   until: add_service|success
   retries: 5
   delay: 10
-  tags:
-    - congress-setup

@@ -13,15 +13,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-congress_service_tenant_name: service
+# Use the tests repo values
 congress_rabbitmq_port: "{{ rabbitmq_port }}"
-congress_service_publicuri: "{{ congress_service_proto }}://{{ hostvars[groups['congress_all'][0]]['ansible_host'] }}:{{ congress_service_port }}"
-congress_service_adminurl: "{{ congress_service_proto }}://{{ hostvars[groups['congress_all'][0]]['ansible_host'] }}:{{ congress_service_port }}"
-congress_service_adminuri: "{{ congress_service_proto }}://{{ hostvars[groups['congress_all'][0]]['ansible_host'] }}:{{ congress_service_port }}"
-congress_aodh_enabled: false
-congress_gnocchi_enabled: false
+congress_rabbitmq_servers: "{{ rabbitmq_servers }}"
+congress_rabbitmq_host_group: "{{ rabbitmq_host_group }}"
+congress_rabbitmq_use_ssl: "{{ rabbitmq_use_ssl }}"
+congress_galera_address: "{{ test_galera_host }}"
+
+# Required settings with no defaults
 congress_rabbitmq_password: "secrete"
 congress_service_password: "secrete"
 congress_container_mysql_password: "secrete"
+
+# Force dev mode for the role test
 congress_developer_mode: true
-congress_galera_address: "{{ test_galera_host }}"
+
+# The defaults use to the LB address, so we need to
+# override them to the container address.
+congress_service_publicuri: "{{ congress_service_proto }}://{{ hostvars[groups['congress_all'][0]]['ansible_host'] }}:{{ congress_service_port }}"
+congress_service_internaluri: "{{ congress_service_publicuri }}"
+congress_service_adminuri: "{{ congress_service_publicuri }}"
+

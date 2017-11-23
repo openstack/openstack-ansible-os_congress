@@ -14,11 +14,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: generate congress configuration
-  template:
-    src: "{{ item }}"
-    dest: "{{ congress_conf_dir }}"
+- name: Deploy configuration files
+  config_template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "root"
+    group: "{{ congress_system_group_name }}"
+    mode: "0640"
+    config_overrides: "{{ item.config_overrides }}"
+    config_type: "{{ item.config_type }}"
   with_items:
-    - api-paste.ini
-    - policy.json
-    - congress.conf
+    - src: "api-paste.ini.j2"
+      dest: "{{ congress_etc_dir }}/api-paste.ini"
+      config_overrides: "{{ congress_congress_api_paste_ini_overrides }}"
+      config_type: "ini"
+    - src: "congress.conf.j2"
+      dest: "{{ congress_etc_dir }}/congress.conf"
+      config_overrides: "{{ congress_congress_conf_overrides }}"
+      config_type: "ini"
+  notify:
+    - Restart congress services

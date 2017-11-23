@@ -15,8 +15,9 @@
 # limitations under the License.
 
 - name: create congress database schema
-  command: "{{ congress_bin }}/congress-db-manage
-    --config-file {{ congress_conf_dir }}/congress.conf upgrade head"
+  command: >
+    {{ congress_bin }}/congress-db-manage
+    --config-file {{ congress_etc_dir }}/congress.conf upgrade head
   become: yes
   become_user: "{{ congress_system_user_name }}"
   changed_when: False

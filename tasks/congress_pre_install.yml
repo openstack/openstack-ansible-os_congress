@@ -14,21 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- include: congress_apt_packages.yml
-
-- name: install pip packages
-  pip:
-    name: "{{ item }}"
-  with_items:
-    - virtualenv
-
-- name: clone congress repo
-  git:
-    repo: "{{ congress_git_repo }}"
-    dest: /opt/congress
-    clone: yes
-    version: master
-
 - name: create congress group
   group:
     name: "{{ congress_system_group_name }}"
@@ -38,12 +23,47 @@
   user:
     name: "{{ congress_system_user_name }}"
     group: "{{ congress_system_group_name }}"
+    state: present
     createhome: no
 
-- name: make congress configuration directory
+- name: Create congress directories
   file:
-    path: "{{ item }}"
+    path: "{{ item.path }}"
     state: directory
+    owner: "{{ item.owner | default(congress_system_user_name) }}"
+    group: "{{ item.group | default(congress_system_group_name) }}"
+    mode: "{{ item.mode | default('0755') }}"
   with_items:
-    - /etc/congress
-    - /etc/congress/snapshot
+    - path: "/openstack"
+      mode: "0755"
+      owner: "root"
+      group: "root"
+    - path: "{{ congress_etc_dir }}"
+    - path: "{{ congress_etc_dir }}/snapshot"
+    - path: "{{ congress_etc_dir }}/keys"
+      mode: "0755"
+      group: "{{ congress_system_group_name }}"
+      owner: "{{ congress_system_user_name }}"
+    - path: "/var/cache/congress"
+    - path: "{{ congress_system_user_home }}"
+
+- name: test for log directory or link
+  shell: |
+    if [ -h "/var/log/congress"  ]; then
+      chown -h {{ congress_system_user_name }}:{{ congress_system_group_name }} "/var/log/congress"
+      chown -R {{ congress_system_user_name }}:{{ congress_system_group_name }} "$(readlink /var/log/congress)"
+    else
+      exit 1
+    fi
+  register: log_dir
+  failed_when: false
+  changed_when: log_dir.rc != 0
+
+- name: Create congress log dir
+  file:
+    path: "/var/log/congress/"
+    state: directory
+    owner: "{{ congress_system_user_name }}"
+    group: "{{ congress_system_group_name }}"
+    mode: "0755"
+  when: log_dir.rc != 0

@@ -1,0 +1,31 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=congress openstack service
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+User={{ congress_system_user_name }}
+Group={{ congress_system_group_name }}
+
+ExecStart={{ congress_bin }}/{{ congress_program_name }} {{ congress_config_options }}
+ExecReload=/bin/kill -HUP $MAINPID
+
+# Give a reasonable amount of time for the server to start up/shut down
+TimeoutSec=300
+Restart=on-failure
+RestartSec=2
+
+# This creates a specific slice which all services will operate from
+#  The accounting options give us the ability to see resource usage through
+#  the `systemd-cgtop` command.
+Slice=congress.slice
+CPUAccounting=true
+BlockIOAccounting=true
+MemoryAccounting=false
+TasksAccounting=true
+
+[Install]
+WantedBy=multi-user.target

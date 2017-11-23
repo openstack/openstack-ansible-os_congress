@@ -14,10 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#- name: install congress
-#  shell: python setup.py install
-#  args:
-#    chdir: /opt/congress
+- name: Install distro packages
+  package:
+    name: "{{ congress_distro_packages }}"
+    state: "{{ congress_package_state }}"
+    update_cache: "{{ (ansible_pkg_mgr in ['apt', 'zypper']) | ternary('yes', omit) }}"
+    cache_valid_time: "{{ (ansible_pkg_mgr == 'apt') | ternary(cache_timeout, omit) }}"
+  register: install_packages
+  until: install_packages | success
+  retries: 5
+  delay: 2
 
 - name: Create developer mode constraint file
   copy:
@@ -30,8 +36,8 @@
 
 - name: Install required pip packages
   pip:
-    name: "{{ congress_requires_pip_packages | join(' ') }}"
-    state: "{{ congress_package_state }}"
+    name: "{{ congress_requires_pip_packages }}"
+    state: "{{ congress_pip_package_state }}"
     extra_args: >-
       {{ congress_developer_mode | ternary(pip_install_developer_constraints | default('--constraint /opt/developer-pip-constraints.txt'), '') }}
       {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
@@ -46,7 +52,7 @@
     url: "{{ congress_venv_download_url | replace('tgz', 'checksum') }}"
     return_content: yes
   register: congress_venv_checksum
-  when: not congress_developer_mode | bool
+  when: congress_venv_download | bool
 
 - name: Attempt venv download
   get_url:
@@ -54,7 +60,7 @@
     dest: "/var/cache/{{ congress_venv_download_url | basename }}"
     checksum: "sha1:{{ congress_venv_checksum.content | trim }}"
   register: congress_get_venv
-  when: not congress_developer_mode | bool
+  when: congress_venv_download | bool
 
 - name: Remove existing venv
   file:
@@ -74,28 +80,42 @@
     src: "/var/cache/{{ congress_venv_download_url | basename }}"
     dest: "{{ congress_bin | dirname }}"
     copy: "no"
-  when:
-    - not congress_developer_mode | bool
-    - congress_get_venv | changed or congress_venv_dir | changed
+  when: congress_get_venv | changed
+  notify:
+    - Restart congress services
 
 - name: Install pip packages
   pip:
     name: "{{ congress_pip_packages | join(' ') }}"
-    state: "{{ congress_package_state }}"
+    state: "{{ congress_pip_package_state }}"
     virtualenv: "{{ congress_bin | dirname }}"
     virtualenv_site_packages: "no"
+    extra_args: >-
+      {{ congress_developer_mode | ternary(pip_install_developer_constraints | default('--constraint /opt/developer-pip-constraints.txt'), '') }}
+      {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
+      {{ pip_install_options | default('') }}
   register: install_packages
   until: install_packages|success
   retries: 5
   delay: 2
-  when: congress_developer_mode | bool
+  when: congress_get_venv | failed or congress_get_venv | skipped
+  notify:
+    - Restart congress services
+
+- name: Remove python from path first (CentOS, openSUSE)
+  file:
+    path:  "{{ congress_bin | dirname }}/bin/python2.7"
+    state: "absent"
+  when:
+    - ansible_pkg_mgr in ['yum', 'dnf', 'zypper']
+    - congress_get_venv | changed
 
 - name: Update virtualenv path
-  command: >
-    virtualenv-tools --update-path=auto --reinitialize {{ congress_bin | dirname }}
-  when:
-    - not congress_developer_mode | bool
-    - congress_get_venv | changed or congress_venv_dir | changed
+  shell: |
+    find {{ congress_bin }} -name \*.pyc -delete
+    sed -si '1s/^.*python.*$/#!{{ congress_bin | replace ('/','\/') }}\/python/' {{ congress_bin }}/*
+    virtualenv {{ congress_bin | dirname }}
+  when: congress_get_venv | changed
 
 - name: Record the venv tag deployed
   ini_file:
@@ -103,6 +123,3 @@
     section: congress
     option: venv_tag
     value: "{{ congress_venv_tag }}"
-
-#- name: Install congress from source
-#  command: python /opt/congress/setup.py install

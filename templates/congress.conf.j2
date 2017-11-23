@@ -14,7 +14,6 @@
 
 [DEFAULT]
 # Print more verbose output (set logging level to INFO instead of default WARNING level).
-verbose = True
 
 # Print debugging output (set logging level to DEBUG instead of default WARNING level).
 # debug = False
@@ -33,7 +32,7 @@ verbose = True
 # syslog_log_facility = LOG_USER
 
 # use_stderr = True
-log_file = congress.log
+log_file = congress-server.log
 log_dir = /var/log/congress
 
 # publish_errors = False
@@ -42,13 +41,19 @@ log_dir = /var/log/congress
 bind_host = 0.0.0.0
 
 # Port the bind the API server to
-# bind_port = 1789
+bind_port = "{{ congress_service_port }}"
 
 # The path to the latest policy dump
 policy_path = /etc/congress/snapshot
 
 # Paste configuration file
-# api_paste_config = api-paste.ini
+api_paste_config = api-paste.ini
+
+# If set to true, the logging level will be set to DEBUG instead of the default
+# INFO level. (boolean value)
+# Note: This option can be changed without restarting.
+debug = {{ debug | bool }}
+
 
 # The strategy to be used for auth.
 # Supported values are 'keystone'(default), 'noauth'.
@@ -57,7 +62,7 @@ auth_strategy = noauth
 # List of datasource driver class paths to import.
 # For example: congress.datasources.neutronv2_driver.NeutronV2Driver, etc
 # errors seen in log, removed congress.datasources.swift_driver.SwiftDriver
-drivers = congress.datasources.neutronv2_driver.NeutronV2Driver,congress.datasources.glancev2_driver.GlanceV2Driver,congress.datasources.nova_driver.NovaDriver,congress.datasources.keystone_driver.KeystoneDriver,congress.datasources.ceilometer_driver.CeilometerDriver,congress.datasources.cinder_driver.CinderDriver,congress.datasources.swift_driver.SwiftDriver
+drivers = congress.datasources.neutronv2_driver.NeutronV2Driver,congress.datasources.glancev2_driver.GlanceV2Driver,congress.datasources.nova_driver.NovaDriver,congress.datasources.keystone_driver.KeystoneDriver,congress.datasources.cinder_driver.CinderDriver,congress.datasources.swift_driver.SwiftDriver
 
 [keystone_authtoken]
 auth_host = "{{ keystone_admin_user_name }}"
@@ -68,4 +73,4 @@ admin_user = "{{ congress_service_project_name }}"
 admin_password = "{{ congress_service_password }}"
 
 [database]
-connection = "mysql://{{ congress_db_user }}:{{ congress_db_user_password }}@127.0.0.1:{{ congress_service_port }}/congress"
+connection = mysql+pymysql://{{ congress_galera_user }}:{{ congress_container_mysql_password }}@{{ congress_galera_address }}/{{ congress_galera_database }}?charset=utf8{% if congress_galera_use_ssl | bool %}&ssl_ca={{ congress_galera_ssl_ca_cert }}{% endif %}

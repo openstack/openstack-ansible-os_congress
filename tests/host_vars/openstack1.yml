@@ -13,17 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Playbook for deploying congress
-  hosts: congress_all
-  user: root
-  become: true
-  gather_facts: true
-  any_errors_fatal: true
-  pre_tasks:
-    - include: common/create-grant-db.yml
-      db_name: "{{ congress_galera_database }}"
-      db_password: "{{ congress_container_mysql_password }}"
-  roles:
-    - role: os_congress
-  vars_files:
-    - common/test-vars.yml
+ansible_host: 10.1.0.3
+ansible_become: True
+ansible_user: root

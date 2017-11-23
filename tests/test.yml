@@ -24,6 +24,3 @@
 
 # Install Congress
 - include: test-install-congress.yml
-
-# Test Congress
-- include: test-congress-functional.yml

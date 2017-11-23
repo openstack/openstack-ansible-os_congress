@@ -14,27 +14,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-galaxy_info:
-  author: Taseer Ahmed
-  email: taseer94@gmail.com
-  description: Congress deployment with OpenStack Ansible
-  company: Independent
-  license: Apache2
-  min_ansible_version: 2.3
-  platforms:
-  - name: Ubuntu
-    versions:
-    - xenial
-  galaxy_tags:
-    - cloud
-    - python
-    - congress
-    - development
-    - openstack
-dependencies:
-  - role: apt_package_pinning
-    when:
-      - ansible_pkg_mgr == 'apt'
-  - galera_client
-  - openstack_openrc
+congress_distro_packages:
+  - git
+  - gcc
+  - python-dev
+  - python-antlr3
+  - libxml2
+  - libxslt1-dev
+  - libzip-dev
+  - build-essential
+  - build-essential
+  - libssl-dev
+  - libffi-dev
+  - python-setuptools
+  - python-mysqldb

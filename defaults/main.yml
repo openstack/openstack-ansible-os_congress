@@ -14,32 +14,43 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+## Verbosity Options
+debug: False
+
+## Set the package install state for distribution packages
+congress_pip_package_state: "latest"
 congress_package_state: "latest"
 
+## Git repositories and their branches
 congress_git_repo: https://git.openstack.org/openstack/congress
 congress_git_install_branch: master
 congress_developer_mode: false
-congress_requirements_git_repo: https://git.openstack.org/openstack/requirements
-congress_requirements_git_install_branch: master
+congress_developer_constraints:
+  - "git+{{ congress_git_repo }}@{{ congress_git_install_branch }}#egg=congress"
 
+## Virtual environment to deploy into
 congress_venv_tag: untagged
 congress_bin: "/openstack/venvs/congress-{{ congress_venv_tag }}/bin"
 
-congress_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/congress.tgz
+## configuration directory
+congress_etc_dir: "/etc/congress"
 
-congress_etc_dir: "{{ congress_bin | dirname }}/etc/congress"
-congress_conf_dir: /etc/congress
+# venv_download, even when true, will use the fallback method of building the
+# venv from scratch if the venv download fails.
+congress_venv_download: "{{ not congress_developer_mode | bool }}"
+congress_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/congress.tgz
 
 ## Required PIP packages
 congress_requires_pip_packages:
-  - tox
   - virtualenv
-  - virtualenv-tools
-  - python-keystoneclient
+  - python-keystoneclient # Keystoneclient needed to OSA keystone lib
 
-## congress developer constraint
-congress_developer_constraints:
-  -  - "git+{{ congress_git_repo }}@{{ congress_git_install_branch }}#egg=congress"
+## Common PIP packages
+congress_pip_packages:
+ - congress
+ - pymysql
+ - python-congressclient
+ - python-heatclient
 
 ## System info
 congress_system_user_name: congress
@@ -47,14 +58,7 @@ congress_system_group_name: congress
 congress_system_shell: /bin/false
 congress_system_comment: congress system user
 congress_system_user_home: "/var/lib/{{ congress_system_user_name }}"
-
-## Database credentials
-congress_db_name: congress
-congress_db_user: root
-congress_db_login_host: ""
-congress_db_login_user: ""
-congress_db_login_password: ""
-congress_db_user_password: ""
+congress_config_options: "--config-file={{ congress_etc_dir }}/congress.conf --logfile /var/log/congress/{{ congress_program_name }}.log"
 
 ## Service Type and Data
 congress_service_region: RegionOne
@@ -73,23 +77,39 @@ congress_service_publicuri_proto: "{{ openstack_service_publicuri_proto | defaul
 congress_service_adminuri_proto: "{{ openstack_service_adminuri_proto | default(congress_service_proto) }}"
 congress_service_internaluri_proto: "{{ openstack_service_internaluri_proto | default(congress_service_proto) }}"
 
-#NOTE:  move password to tests/test-vars.yml
-congress_service_password: password
-
 ## Keystone
 congress_service_project_domain_id: default
 congress_service_project_name: service
 congress_service_user_domain_id: default
 congress_service_user_name: congress
 congress_keystone_auth_plugin: password
-
 congress_service_in_ldap: false
 
 ## DB info
 congress_galera_database: congress
 congress_galera_user: congress
+congress_galera_use_ssl: "{{ galera_use_ssl | default(False) }}"
+congress_galera_ssl_ca_cert: "{{ galera_ssl_ca_cert | default('/etc/ssl/certs/galera-ca.pem') }}"
 
+## Service info
 congress_role_name: admin
 congress_bind_address: 0.0.0.0
-congress_service_port: 9800
+congress_service_port: 1789
 congress_program_name: congress-server
+
+## RabbitMQ info
+congress_rabbitmq_userid: congress
+congress_rabbitmq_vhost: /congress
+congress_rabbitmq_port: 5672
+congress_rabbitmq_servers: 127.0.0.1
+congress_rabbitmq_use_ssl: False
+
+# This variable is used by the repo_build process to determine
+# which host group to check for members of before building the
+# pip packages required by this role. The value is picked up
+# by the py_pkgs lookup.
+congress_role_project_group: congress_all
+
+## Tunable overrides
+congress_congress_api_paste_ini_overrides: {}
+congress_congress_conf_overrides: {}

@@ -30,7 +30,7 @@ congress_distro_packages:
   - python3-systemd
   - pkg-config
 
-congress_developer_mode_distro_packages:
+congress_devel_distro_packages:
   - build-essential
   - libsystemd-dev
   - pkg-config

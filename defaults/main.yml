@@ -33,8 +33,19 @@ congress_developer_mode: false
 congress_developer_constraints:
   - "git+{{ congress_git_repo }}@{{ congress_git_install_branch }}#egg=congress"
 
+# TODO(odyssey4me):
+# This can be simplified once all the roles are using
+# python_venv_build. We can then switch to using a
+# set of constraints in pip.conf inside the venv,
+# perhaps prepared by giving a giving a list of
+# constraints to the role.
+congress_pip_install_args: >-
+  {{ congress_developer_mode | ternary(pip_install_developer_constraints | default('--constraint /opt/developer-pip-constraints.txt'), '') }}
+  {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''), '') }}
+  {{ pip_install_options | default('') }}
+
 ## Virtual environment to deploy into
-congress_venv_tag: untagged
+congress_venv_tag: "{{ venv_tag | default('untagged') }}"
 congress_bin: "/openstack/venvs/congress-{{ congress_venv_tag }}/bin"
 
 ## configuration directory

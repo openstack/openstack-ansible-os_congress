@@ -25,7 +25,9 @@
   until: _stop is success
   retries: 5
   delay: 2
-  listen: "Restart congress services"
+  listen:
+    - "Restart congress services"
+    - "venv changed"
 
 - name: Start services
   service:
@@ -38,7 +40,9 @@
   until: _start is success
   retries: 5
   delay: 2
-  listen: "Restart congress services"
+  listen:
+    - "Restart congress services"
+    - "venv changed"
 
 - name: Wait for service to be ready
   wait_for:
@@ -48,4 +52,6 @@
   register: _wait_check
   until: _wait_check is success
   retries: 5
-  listen: "Restart congress services"
+  listen:
+    - "Restart congress services"
+    - "venv changed"

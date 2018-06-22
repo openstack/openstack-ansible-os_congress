@@ -48,6 +48,7 @@ congress_requires_pip_packages:
 ## Common PIP packages
 congress_pip_packages:
  - congress
+ - osprofiler
  - pymysql
  - python-congressclient
  - python-heatclient

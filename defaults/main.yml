@@ -87,6 +87,8 @@ congress_keystone_auth_plugin: password
 congress_service_in_ldap: false
 
 ## DB info
+congress_db_setup_host: "{{ ('galera_all' in groups) | ternary(groups['galera_all'][0], 'localhost') }}"
+congress_galera_address: "{{ galera_address | default('127.0.0.1') }}"
 congress_galera_database: congress
 congress_galera_user: congress
 congress_galera_use_ssl: "{{ galera_use_ssl | default(False) }}"

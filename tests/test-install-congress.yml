@@ -26,11 +26,6 @@
       user_password: "{{ congress_rabbitmq_password }}"
       when:
         - "groups['rabbitmq_all'] is defined"
-
-    - include: common/create-grant-db.yml
-      db_name: "{{ congress_galera_database }}"
-      db_password: "{{ congress_container_mysql_password }}"
-
   roles:
     - role: "os_congress"
   vars_files:

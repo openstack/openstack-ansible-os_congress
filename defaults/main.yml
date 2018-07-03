@@ -17,6 +17,11 @@
 ## Verbosity Options
 debug: False
 
+# Set the host which will execute the shade modules
+# for the service setup. The host must already have
+# clouds.yaml properly configured.
+congress_service_setup_host: "{{ openstack_service_setup_host | default('localhost') }}"
+
 ## Set the package install state for distribution packages
 congress_pip_package_state: "latest"
 congress_package_state: "latest"
@@ -39,11 +44,6 @@ congress_etc_dir: "/etc/congress"
 # venv from scratch if the venv download fails.
 congress_venv_download: "{{ not congress_developer_mode | bool }}"
 congress_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/congress.tgz
-
-## Required PIP packages
-congress_requires_pip_packages:
-  - virtualenv
-  - python-keystoneclient # Keystoneclient needed to OSA keystone lib
 
 ## Common PIP packages
 congress_pip_packages:

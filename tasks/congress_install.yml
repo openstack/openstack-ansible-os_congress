@@ -21,7 +21,7 @@
     update_cache: "{{ (ansible_pkg_mgr in ['apt', 'zypper']) | ternary('yes', omit) }}"
     cache_valid_time: "{{ (ansible_pkg_mgr == 'apt') | ternary(cache_timeout, omit) }}"
   register: install_packages
-  until: install_packages | success
+  until: install_packages  is success
   retries: 5
   delay: 2
 
@@ -53,21 +53,21 @@
   file:
     path: "{{ congress_bin | dirname }}"
     state: absent
-  when: congress_get_venv | changed
+  when: congress_get_venv  is changed
 
 - name: Create congress venv dir
   file:
     path: "{{ congress_bin | dirname }}"
     state: directory
   register: congress_venv_dir
-  when: congress_get_venv | changed
+  when: congress_get_venv  is changed
 
 - name: Unarchive pre-built venv
   unarchive:
     src: "/var/cache/{{ congress_venv_download_url | basename }}"
     dest: "{{ congress_bin | dirname }}"
     copy: "no"
-  when: congress_get_venv | changed
+  when: congress_get_venv  is changed
   notify:
     - Restart congress services
 
@@ -82,7 +82,7 @@
       {{ (pip_install_upper_constraints is defined) | ternary('--constraint ' + pip_install_upper_constraints | default(''),'') }}
       {{ pip_install_options | default('') }}
   register: install_packages
-  until: install_packages|success
+  until: install_packages is success
   retries: 5
   delay: 2
   when: congress_get_venv | failed or congress_get_venv | skipped
@@ -95,7 +95,7 @@
     state: "absent"
   when:
     - ansible_pkg_mgr in ['yum', 'dnf', 'zypper']
-    - congress_get_venv | changed
+    - congress_get_venv  is changed
 
 # NOTE(odyssey4me):
 # We reinitialize the venv to ensure that the right
@@ -113,7 +113,7 @@
         --no-pip \
         --no-setuptools \
         --no-wheel
-  when: congress_get_venv | changed
+  when: congress_get_venv  is changed
 
 - name: Record the venv tag deployed
   ini_file:

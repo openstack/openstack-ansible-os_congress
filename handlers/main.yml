@@ -21,7 +21,7 @@
     state: "started"
     daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
   register: _stop
-  until: _stop  is success
+  until: _stop is success
   retries: 5
   delay: 2
   listen: "Restart congress services"
@@ -33,7 +33,7 @@
     state: "started"
     daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
   register: _start
-  until: _start  is success
+  until: _start is success
   retries: 5
   delay: 2
   listen: "Restart congress services"
@@ -44,7 +44,7 @@
     timeout: 25
     delay: 10
   register: _wait_check
-  until: _wait_check  is success
+  until: _wait_check is success
   retries: 5
   listen: "Restart congress services"
 

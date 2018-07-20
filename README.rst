@@ -14,4 +14,4 @@ The project source code repository is located at:
 `<https://git.openstack.org/cgit/openstack/openstack-ansible-os_congress/>`_
 
 The project home is at:
-`<http://launchpad.net/openstack-ansible>`_
+`<https://launchpad.net/openstack-ansible>`_

@@ -26,15 +26,15 @@
   tags:
     - always
 
-- include: congress_pre_install.yml
+- include_tasks: congress_pre_install.yml
   tags:
     - congress-install
 
-- include: congress_install.yml
+- include_tasks: congress_install.yml
   tags:
     - congress-install
 
-- include: congress_post_install.yml
+- include_tasks: congress_post_install.yml
   tags:
     - congress-config
 
@@ -42,13 +42,13 @@
   tags:
     - congress-config
 
-- include: congress_db_setup.yml
+- include_tasks: congress_db_setup.yml
   when:
     - "inventory_hostname == ((groups['congress_all']| intersect(ansible_play_hosts)) | list)[0]"
   tags:
     - congress-config
 
-- include: congress_service_setup.yml
+- include_tasks: congress_service_setup.yml
   when:
     - "inventory_hostname == ((groups['congress_all']| intersect(ansible_play_hosts)) | list)[0]"
   tags:

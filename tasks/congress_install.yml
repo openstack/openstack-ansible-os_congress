@@ -89,6 +89,20 @@
   notify:
     - Restart congress services
 
+- name: Install optional pip packages
+  pip:
+    name: "{{ congress_optional_oslomsg_amqp1_pip_packages }}"
+    state: "{{ congress_pip_package_state }}"
+    virtualenv: "{{ congress_bin | dirname }}"
+    virtualenv_site_packages: "no"
+  when: congress_oslomsg_amqp1_enabled
+  register: install_optional_packages
+  until: install_optional_packages is success
+  retries: 5
+  delay: 2
+  notify:
+    - Restart congress services
+
 - name: Remove python from path first (CentOS, openSUSE)
   file:
     path:  "{{ congress_bin | dirname }}/bin/python2.7"

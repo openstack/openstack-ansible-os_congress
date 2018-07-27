@@ -14,19 +14,10 @@
 # limitations under the License.
 
 # Use the tests repo values
-congress_oslomsg_rpc_port: "{{ oslomsg_rpc_port }}"
-congress_oslomsg_rpc_use_ssl: "{{ oslomsg_rpc_use_ssl }}"
-congress_oslomsg_rpc_servers: "{{ oslomsg_rpc_servers }}"
-congress_oslomsg_rpc_host_group: "{{ oslomsg_rpc_host_group }}"
-congress_oslomsg_notify_port: "{{ oslomsg_notify_port }}"
-congress_oslomsg_notify_use_ssl: "{{ oslomsg_notify_use_ssl }}"
-congress_oslomsg_notify_servers: "{{ oslomsg_notify_servers }}"
-congress_oslomsg_notify_host_group: "{{ oslomsg_notify_host_group }}"
 congress_galera_address: "{{ test_galera_host }}"
 
 # Required settings with no defaults
 congress_oslomsg_rpc_password: "secrete"
-congress_oslomsg_notify_password: "{{ congress_oslomsg_rpc_password }}"
 congress_service_password: "secrete"
 congress_container_mysql_password: "secrete"
 

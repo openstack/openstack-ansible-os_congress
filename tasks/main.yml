@@ -42,14 +42,32 @@
   tags:
     - congress-config
 
+- include_tasks: mq_setup.yml
+  when:
+    - "inventory_hostname == ((groups['congress_all'] | intersect(ansible_play_hosts)) | list)[0]"
+  with_items:
+    - oslomsg_setup_host: "{{ congress_oslomsg_rpc_setup_host }}"
+      oslomsg_userid: "{{ congress_oslomsg_rpc_userid }}"
+      oslomsg_password: "{{ congress_oslomsg_rpc_password }}"
+      oslomsg_vhost: "{{ congress_oslomsg_rpc_vhost }}"
+      oslomsg_transport: "{{ congress_oslomsg_rpc_transport }}"
+    - oslomsg_setup_host: "{{ congress_oslomsg_notify_setup_host }}"
+      oslomsg_userid: "{{ congress_oslomsg_notify_userid }}"
+      oslomsg_password: "{{ congress_oslomsg_notify_password }}"
+      oslomsg_vhost: "{{ congress_oslomsg_notify_vhost }}"
+      oslomsg_transport: "{{ congress_oslomsg_notify_transport }}"
+  no_log: true
+  tags:
+    - congress-config
+
 - include: congress_db_setup.yml
   when:
-    - "inventory_hostname == ((groups['congress_all']| intersect(ansible_play_hosts)) | list)[0]"
+    - "inventory_hostname == ((groups['congress_all'] | intersect(ansible_play_hosts)) | list)[0]"
   tags:
     - congress-config
 
 - include: congress_service_setup.yml
   when:
-    - "inventory_hostname == ((groups['congress_all']| intersect(ansible_play_hosts)) | list)[0]"
+    - "inventory_hostname == ((groups['congress_all'] | intersect(ansible_play_hosts)) | list)[0]"
   tags:
     - congress-config

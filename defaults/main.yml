@@ -47,11 +47,20 @@ congress_venv_download_url: http://127.0.0.1/venvs/untagged/ubuntu/congress.tgz
 
 ## Common PIP packages
 congress_pip_packages:
- - congress
- - osprofiler
- - pymysql
- - python-congressclient
- - python-heatclient
+  - congress
+  - osprofiler
+  - pymysql
+  - python-congressclient
+  - python-heatclient
+  - systemd-python
+
+congress_services:
+  congress-server:
+    group: congress_all
+    service_name: congress-server
+    execstarts: "{{ congress_bin }}/congress-server --config-file={{ congress_etc_dir }}/congress.conf"
+    init_config_overrides: "{{ congress_server_init_overrides }}"
+    start_order: 1
 
 ## System info
 congress_system_user_name: congress
@@ -59,7 +68,6 @@ congress_system_group_name: congress
 congress_system_shell: /bin/false
 congress_system_comment: congress system user
 congress_system_user_home: "/var/lib/{{ congress_system_user_name }}"
-congress_config_options: "--config-file={{ congress_etc_dir }}/congress.conf --logfile /var/log/congress/{{ congress_program_name }}.log"
 
 ## Service Type and Data
 congress_service_region: RegionOne
@@ -135,3 +143,4 @@ congress_role_project_group: congress_all
 ## Tunable overrides
 congress_congress_api_paste_ini_overrides: {}
 congress_congress_conf_overrides: {}
+congress_server_init_overrides: {}

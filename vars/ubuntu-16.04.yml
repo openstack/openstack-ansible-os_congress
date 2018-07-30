@@ -16,15 +16,21 @@
 
 congress_distro_packages:
   - git
-  - gcc
-  - python-dev
-  - python-antlr3
+  - libffi-dev
+  - libssl-dev
+  - libsystemd-dev
   - libxml2
   - libxslt1-dev
   - libzip-dev
-  - build-essential
-  - build-essential
-  - libssl-dev
-  - libffi-dev
+  - python-antlr3
+  - python-dev
   - python-setuptools
   - python-mysqldb
+  - python-systemd
+  - python3-systemd
+  - pkg-config
+
+congress_developer_mode_distro_packages:
+  - build-essential
+  - libsystemd-dev
+  - pkg-config

@@ -16,10 +16,11 @@
 
 - name: Stop services
   service:
-    name: "{{ congress_program_name }}"
+    name: "{{ item.service_name }}"
     enabled: yes
     state: "started"
     daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
+  with_items: "{{ filtered_congress_services }}"
   register: _stop
   until: _stop is success
   retries: 5
@@ -28,10 +29,11 @@
 
 - name: Start services
   service:
-    name: "{{ congress_program_name }}"
+    name: "{{ item.service_name }}"
     enabled: yes
     state: "started"
     daemon_reload: "{{ (ansible_service_mgr == 'systemd') | ternary('yes', omit) }}"
+  with_items: "{{ filtered_congress_services }}"
   register: _start
   until: _start is success
   retries: 5
@@ -47,4 +49,3 @@
   until: _wait_check is success
   retries: 5
   listen: "Restart congress services"
-

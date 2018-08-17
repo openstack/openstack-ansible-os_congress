@@ -14,13 +14,13 @@
 # limitations under the License.
 
 # Setup the host
-- include: common/test-setup-host.yml
+- import_playbook: common/test-setup-host.yml
 
 # Install RabbitMQ/MariaDB
-- include: common/test-install-infra.yml
+- import_playbook: common/test-install-infra.yml
 
 # Install Keystone
-- include: common/test-install-keystone.yml
+- import_playbook: common/test-install-keystone.yml
 
 # Install Congress
-- include: test-install-congress.yml
+- import_playbook: test-install-congress.yml

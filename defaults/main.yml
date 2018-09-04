@@ -28,7 +28,7 @@ congress_package_state: "latest"
 
 ## Git repositories and their branches
 congress_git_repo: https://git.openstack.org/openstack/congress
-congress_git_install_branch: master
+congress_git_install_branch: 'stable/rocky'
 congress_developer_mode: false
 congress_developer_constraints:
   - "git+{{ congress_git_repo }}@{{ congress_git_install_branch }}#egg=congress"

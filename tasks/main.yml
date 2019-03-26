@@ -30,7 +30,23 @@
   tags:
     - congress-install
 
-- include_tasks: congress_install.yml
+- name: Install the python venv
+  import_role:
+    name: "python_venv_build"
+  vars:
+    venv_build_constraints: "{{ congress_git_constraints }}"
+    venv_build_distro_package_list: "{{ congress_devel_distro_packages }}"
+    venv_install_destination_path: "{{ congress_bin | dirname }}"
+    venv_install_distro_package_list: "{{ congress_distro_packages }}"
+    venv_pip_install_args: "{{ congress_pip_install_args }}"
+    venv_pip_packages: >-
+      {{ congress_pip_packages |
+           union(congress_user_pip_packages) |
+             union(((congress_oslomsg_amqp1_enabled | bool) | ternary(congress_optional_oslomsg_amqp1_pip_packages, []))) }}
+    venv_facts_when_changed:
+      - section: "congress"
+        option: "venv_tag"
+        value: "{{ congress_venv_tag }}"
   tags:
     - congress-install
 

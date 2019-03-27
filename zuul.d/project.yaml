@@ -15,16 +15,16 @@
 - project:
     templates:
       - check-requirements
+      - openstack-ansible-linters
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
-    name: openstack/openstack-ansible-os_congress
     check:
       jobs:
-        - openstack-ansible-linters
-        - openstack-ansible-functional-ubuntu-xenial
-        - openstack-ansible-functional-ubuntu-bionic
+        - openstack-ansible-deploy-aio_metal_congress-ubuntu-bionic
     gate:
       jobs:
-        - openstack-ansible-linters
-        - openstack-ansible-functional-ubuntu-xenial
-        - openstack-ansible-functional-ubuntu-bionic
+        - openstack-ansible-deploy-aio_metal_congress-ubuntu-bionic
+    experimental:
+      jobs:
+        - openstack-ansible-deploy-aio_metal_congress-centos-7
+        - openstack-ansible-deploy-aio_metal_congress-opensuse-150

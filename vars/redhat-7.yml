@@ -14,35 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+cache_timeout: 600
 
-galaxy_info:
-  author: Taseer Ahmed
-  email: taseer94@gmail.com
-  description: Congress deployment with OpenStack Ansible
-  company: Independent
-  license: Apache2
-  min_ansible_version: 2.3
-  platforms:
-  - name: Debian
-    versions:
-    - stretch
-  - name: Ubuntu
-    versions:
-    - xenial
-    - bionic
-  - name: EL
-    versions:
-    - 7
-  - name: opensuse
-    versions:
-    - 15
-  galaxy_tags:
-    - cloud
-    - python
-    - congress
-    - development
-    - openstack
-dependencies:
-  - role: apt_package_pinning
-    when:
-      - ansible_pkg_mgr == 'apt'
+congress_distro_packages:
+  - git-core
+  - libxml2
+
+congress_devel_distro_packages:
+  - libxml2-devel

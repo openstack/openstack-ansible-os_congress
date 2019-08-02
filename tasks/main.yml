@@ -110,7 +110,32 @@
   tags:
     - congress-config
 
-- import_tasks: congress_service_setup.yml
+- include_tasks: service_setup.yml
+  vars:
+    _service_adminuri_insecure: "{{ keystone_service_adminuri_insecure }}"
+    _service_in_ldap: "{{ congress_service_in_ldap }}"
+    _service_setup_host: "{{ congress_service_setup_host }}"
+    _service_setup_host_python_interpreter: "{{ congress_service_setup_host_python_interpreter }}"
+    _service_project_name: "{{ congress_service_project_name }}"
+    _service_region: "{{ congress_service_region }}"
+    _service_users:
+      - name: "{{ congress_service_user_name }}"
+        password: "{{ congress_service_password }}"
+        role: "{{ congress_role_name }}"
+    _service_endpoints:
+      - service: "{{ congress_service_name }}"
+        interface: "public"
+        url: "{{ congress_service_publicurl }}"
+      - service: "{{ congress_service_name }}"
+        interface: "internal"
+        url: "{{ congress_service_internalurl }}"
+      - service: "{{ congress_service_name }}"
+        interface: "admin"
+        url: "{{ congress_service_adminurl }}"
+    _service_catalog:
+      - name: "{{ congress_service_name }}"
+        type: "{{ congress_service_type }}"
+        description: "{{ congress_service_description }}"
   when:
     - "inventory_hostname == ((groups['congress_all'] | intersect(ansible_play_hosts)) | list)[0]"
   tags:

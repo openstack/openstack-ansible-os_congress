@@ -110,7 +110,7 @@
   tags:
     - congress-config
 
-- include_tasks: service_setup.yml
+- import_tasks: service_setup.yml
   vars:
     _service_adminuri_insecure: "{{ keystone_service_adminuri_insecure }}"
     _service_in_ldap: "{{ congress_service_in_ldap }}"

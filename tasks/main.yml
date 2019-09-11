@@ -66,6 +66,7 @@
   import_role:
     name: "python_venv_build"
   vars:
+    venv_python_executable: "{{ congress_venv_python_executable }}"
     venv_build_constraints: "{{ congress_git_constraints }}"
     venv_build_distro_package_list: "{{ congress_devel_distro_packages }}"
     venv_install_destination_path: "{{ congress_bin | dirname }}"

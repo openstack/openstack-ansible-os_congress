@@ -104,7 +104,7 @@ congress_galera_ssl_ca_cert: "{{ galera_ssl_ca_cert | default('/etc/ssl/certs/ga
 
 ## Service info
 congress_role_name: admin
-congress_bind_address: 0.0.0.0
+congress_bind_address: "{{ openstack_service_bind_address | default('0.0.0.0') }}"
 congress_service_port: 1789
 congress_program_name: congress-server
 

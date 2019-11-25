@@ -31,9 +31,9 @@ congress_pip_package_state: "latest"
 congress_package_state: "latest"
 
 ## Git repositories and their branches
-congress_git_repo: https://git.openstack.org/openstack/congress
+congress_git_repo: https://opendev.org/openstack/congress
 congress_git_install_branch: master
-congress_upper_constraints_url: "{{ requirements_git_url | default('https://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt?h=' ~ requirements_git_install_branch | default('master')) }}"
+congress_upper_constraints_url: "{{ requirements_git_url | default('https://releases.openstack.org/constraints/upper/' ~ requirements_git_install_branch | default('master')) }}"
 congress_git_constraints:
   - "git+{{ congress_git_repo }}@{{ congress_git_install_branch }}#egg=openstack-congress"
   - "--constraint {{ congress_upper_constraints_url }}"

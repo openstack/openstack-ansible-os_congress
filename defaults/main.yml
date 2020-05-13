@@ -141,12 +141,6 @@ congress_oslomsg_amqp1_enabled: "{{ congress_oslomsg_rpc_transport == 'amqp' }}"
 congress_optional_oslomsg_amqp1_pip_packages:
   - oslo.messaging[amqp1]
 
-# This variable is used by the repo_build process to determine
-# which host group to check for members of before building the
-# pip packages required by this role. The value is picked up
-# by the py_pkgs lookup.
-congress_role_project_group: congress_all
-
 ## Tunable overrides
 congress_congress_api_paste_ini_overrides: {}
 congress_congress_conf_overrides: {}

@@ -1,6 +1,0 @@
----
-- name: Install congress server
-  hosts: congress_all
-  user: root
-  roles:
-    - { role: "os_congress", tags: [ "os-congress" ] }

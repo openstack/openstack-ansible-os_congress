@@ -20,11 +20,9 @@
       - release-notes-jobs-python3
     check:
       jobs:
-        - openstack-ansible-deploy-aio_metal_congress-debian-stable
         - openstack-ansible-deploy-aio_metal_congress-ubuntu-bionic
     gate:
       jobs:
-        - openstack-ansible-deploy-aio_metal_congress-debian-stable
         - openstack-ansible-deploy-aio_metal_congress-ubuntu-bionic
     experimental:
       jobs:
